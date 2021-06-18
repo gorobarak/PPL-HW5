@@ -40,3 +40,31 @@ book("The Lord of the Rings", 4, 4, 1250).
 
 % You can add more facts.
 % Fill in the Purpose, Signature as requested in the instructions here
+
+
+%Signature:  authorOfGenre(GenreName, AuthorName)/2
+%Purpose: {AuthorName} has written a book belonging to the genre named {GenreName}.
+authorOfGenre(GenreName,AuthorName) :- author(N,AuthorName), book(_,N,GenreName,_).
+
+
+
+
+%Signature:  longestBook(AuthorId, BookName)/2
+%Purpose: Longest book that an author with the ID {AuthorId} has written in titled {BookName}
+longestBook(AuthorId,BookName) :- 
+    book(BookName,AuthorId,_,Length),
+    findall(bookFound(Y,X),book(X,AuthorId,_,Y),List),
+    max_member(bookFound(Length,BookName),List).
+
+
+%Signature:  versatileAuthor(AuthorName)/1
+%Purpose:  author by the name {AuthorName} has written books in at least three different genres
+versatileAuthor(AuthorName) :-
+    author(Id,AuthorName),
+    findall(G,book(_,Id,G,_),List),
+    list_to_set(List,Set),
+    length(Set,N),
+    N \= 0, N \= 1, N \= 2.
+
+
+
